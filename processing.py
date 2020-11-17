@@ -1,11 +1,12 @@
 import struct
-import numpy as np
-import matplotlib.pyplot as plt
-import matplotlib
+#import numpy as np
+#import matplotlib.pyplot as plt
+#import matplotlib
 import os
 import argparse
 import logging
 import re
+import math
 
 
 class Par_Data():
@@ -15,7 +16,6 @@ class Par_Data():
         with open(file_name + '.par', mode='br') as f:
             self.code_str = f.read(20).decode('ascii')
             self.par['CodeString'] = self.code_str
-            print(self.code_str[16:17])
             self.dev_name = f.read(17).decode('ascii')
             self.par['DeviceName'] = self.dev_name
             self.time_str = f.read(26).decode('ascii')
@@ -64,14 +64,30 @@ parser.add_argument(
     default=False
 )
 
+
+def find_start(mas):
+    start_val = sum(mas[0:10])/10
+    for ti, tval in enumerate(mas):
+        if tval < (start_val)*0.6:
+            return ti
+
+
 def main(opt):
     list_file_dir = os.listdir(os.path.join(opt.dir))
     for file_ in list_file_dir:
-        print(os.path.join('data', file_))
-        c = Par_Data(os.path.join(opt.dir, os.path.splitext(file_)[0]))
-        
-
-    
+        atr_file = os.path.splitext(file_)
+        if  atr_file[1] == '.par':
+            c = Par_Data(os.path.join(opt.dir, atr_file[0]))
+            pos_start = find_start(c.data)
+            fon = sum(c.data[0:pos_start-100])/(pos_start-100)
+            sum_int = 0
+            item = 0
+            pred_val = 0.00001
+            for val in c.data[pos_start+2000:pos_start+10000]:
+                sum_int += (math.log(fon/val) + math.log(fon/pred_val))/2/(c.adc_rate*1000)
+                pred_val = val
+                item += 1
+            print(file_, '\t', str(sum_int/(item)*1000).ljust(20))
 
 if __name__ == "__main__":
     args = parser.parse_args()
