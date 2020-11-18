@@ -10,7 +10,8 @@ import math
 
 config = {
     'pos_head': 2000,
-    'pos_tail': 10000
+    'pos_tail': 10000,
+    'dir': './data'
 }
 
 
@@ -69,10 +70,16 @@ class Par_Data():
 
 parser = argparse.ArgumentParser(description="Demonstration")
 parser.add_argument(
-    '--range',
+    '--rangehead',
     type=int,
-    default=5,
-    help="Range integ"
+    default=2,
+    help="Range integ head, at sec"
+)
+parser.add_argument(
+    '--rangetail',
+    type=int,
+    default=8,
+    help="Range integ tail, at sec"
 )
 parser.add_argument(
     '--dir',
