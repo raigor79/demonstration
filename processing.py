@@ -109,12 +109,14 @@ def main(opt):
                 item = 0
                 pred_val = 0.00001
                 median = 0
+                trans = 0 
                 for val in c.data[pos_start + config['pos_head']:pos_start + config['pos_tail']]:
                     sum_int += (math.log(fon/val) + math.log(fon/pred_val))/2/(c.adc_rate*1000)
                     median += math.log(fon/val)
                     pred_val = val
+                    trans += val*100/fon 
                     item += 1
-                str_out = f'{atr_file[0]} \t int = {sum_int} \t median = {median/item}'
+                str_out = f'{atr_file[0]} \t int = \t {sum_int} \t median = \t {median/item} \t trans = \t {trans/item}'
                 print(str_out)
                 f.write(str_out + '\n')
 
