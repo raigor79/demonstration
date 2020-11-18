@@ -7,6 +7,7 @@ import argparse
 import logging
 import re
 import math
+import json
 
 config = {
     'pos_head': 2000,
@@ -91,6 +92,11 @@ parser.add_argument(
     type=bool,
     default=False
 )
+parser.add_argument(
+    '--create_config',
+    type=bool,
+    default=False
+)
 
 
 def find_start(mas):
@@ -128,6 +134,14 @@ def main(opt):
                 f.write(str_out + '\n')
 
 
+def save_conf(par):
+    """
+    docstring
+    """
+    with open('config.cfg', mode='w') as f:
+        f.write(json.dumps(par))
+
+
 if __name__ == "__main__":
     args = parser.parse_args()
     logging.basicConfig(
@@ -136,7 +150,10 @@ if __name__ == "__main__":
         datefmt='[%H:%M:%S]'
     )
     log = logging.getLogger()
+    
     log.info('Start')
     main(args)
+    if args.create_config:
+        save_conf(config)
     log.info('Stop')
 
