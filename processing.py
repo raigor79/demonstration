@@ -85,7 +85,7 @@ parser.add_argument(
 parser.add_argument(
     '--dir',
     type=str,
-    default='./data'
+    default='./data1'
 )
 parser.add_argument(
     '--save',
@@ -111,7 +111,7 @@ def find_start(mas):
 
 def main(opt):
     list_file_dir = os.listdir(os.path.join(opt.dir))
-    with open('outtext.txt', 'w') as f:
+    with open(f'outtext{opt.dir[2:]}.txt', 'w') as f:
         for file_ in list_file_dir:
             atr_file = os.path.splitext(file_)
             if  atr_file[1] == '.par':
