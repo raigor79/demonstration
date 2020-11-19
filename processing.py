@@ -1,3 +1,4 @@
+
 import struct
 #import numpy as np
 #import matplotlib.pyplot as plt
@@ -9,10 +10,25 @@ import re
 import math
 import json
 
+config_desctiption = '''-----description config-----
+signal_level - начальный уровень сигнала (0 или 1)
+dir - директория с файлами *.dat, *.par (программа регистрации lgraph (АЦП Lcard))
+pos_head - количество отчетов от начала процесса
+pos_tail - количество отчетов окончания от начала процесса
+parametr_index - коэфициет пересчета отчетов
+name_parametr - название парамета при пересчете
+graph_view - вывод графика данных
+save_file - сохранение данных в файл
+'''
 config = {
-    'pos_head': 2000,
-    'pos_tail': 10000,
-    'dir': './data'
+    'pos_head' : 2000,
+    'pos_tail':  10000,
+    'dir' : './data',
+    'signal_level' : 0,
+    'parametr_index': 1,
+    'name_parametr' : 'None',
+    'graph_view': None,
+    'save_file': True
 }
 
 
@@ -70,25 +86,14 @@ class Par_Data():
 
 
 parser = argparse.ArgumentParser(description="Demonstration")
-parser.add_argument(
-    '--rangehead',
-    type=int,
-    default=2,
-    help="Range integ head, at sec"
-)
-parser.add_argument(
-    '--rangetail',
-    type=int,
-    default=8,
-    help="Range integ tail, at sec"
-)
+
 parser.add_argument(
     '--dir',
     type=str,
-    default='./data1'
+    default='./data'
 )
 parser.add_argument(
-    '--save',
+    '--config',
     type=bool,
     default=False
 )
