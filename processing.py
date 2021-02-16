@@ -90,7 +90,7 @@ parser = argparse.ArgumentParser(description="Demonstration")
 parser.add_argument(
     '--dir',
     type=str,
-    default='./data'
+    default='./23112020'
 )
 parser.add_argument(
     '--config',
@@ -134,7 +134,7 @@ def main(opt):
                     pred_val = val
                     trans += val*100/fon 
                     item += 1
-                str_out = f'{atr_file[0]} \t int = \t {sum_int} \t median = \t {median/item} \t trans = \t {trans/item}'
+                str_out = f'{atr_file[0]} \t int tau = \t {sum_int} \t median tau = \t {median/item} \t trans = \t {trans/item}'
                 print(str_out)
                 f.write(str_out + '\n')
 
